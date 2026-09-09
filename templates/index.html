@@ -11,6 +11,7 @@
 <div id="app">
 
   <button id="mute-btn">🔊</button>
+  <button id="fullscreen-btn">⛶ TELA CHEIA</button>
 
   <!-- INTRO -->
   <div class="screen active" id="screen-intro">
@@ -32,7 +33,7 @@
       <div id="question-text">Carregando...</div>
     </div>
     <div id="options"></div>
-    <img id="host-peek" src="{{ url_for('static', filename='img/host.png') }}" alt="host">
+    <img id="host-peek" src="{{ url_for('static', filename='img/host/host_1_idle.png') }}" alt="apresentador">
   </div>
 
   <div id="feedback-banner"></div>
@@ -40,7 +41,7 @@
   <!-- RESULT -->
   <div class="screen" id="screen-result">
     <div id="result-card">
-      <img id="result-host" src="{{ url_for('static', filename='img/host.png') }}" alt="host">
+      <img id="result-host" src="{{ url_for('static', filename='img/host/host_3_cheer.png') }}" alt="apresentador">
       <div id="result-title">FIM DE JOGO!</div>
       <div id="result-score">0/{{ total }}</div>
       <div id="result-msg"></div>
@@ -57,6 +58,12 @@
   const BG_QUESTION = "{{ url_for('static', filename='img/bg_question.jpg') }}";
   const BG_STAGE = "{{ url_for('static', filename='img/bg_stage.jpg') }}";
   const TOTAL_QUESTIONS = {{ total }};
+  const HOST_FRAMES = [
+    "{{ url_for('static', filename='img/host/host_1_idle.png') }}",
+    "{{ url_for('static', filename='img/host/host_2_talk.png') }}",
+    "{{ url_for('static', filename='img/host/host_3_cheer.png') }}",
+    "{{ url_for('static', filename='img/host/host_4_laugh.png') }}"
+  ];
 </script>
 <script src="{{ url_for('static', filename='js/quiz.js') }}"></script>
 
