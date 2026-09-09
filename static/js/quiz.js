@@ -16,11 +16,100 @@ const resultMsg = document.getElementById('result-msg');
 const audioTheme = document.getElementById('audio-theme');
 const audioTvtime = document.getElementById('audio-tvtime');
 const muteBtn = document.getElementById('mute-btn');
+const fullscreenBtn = document.getElementById('fullscreen-btn');
+const appEl = document.getElementById('app');
+const hostPeek = document.getElementById('host-peek');
+const resultHost = document.getElementById('result-host');
+
+// -------------------------------------------------------------------
+// Animação do apresentador: alterna entre os 4 sprites recortados da
+// folha de referência (idle -> fala -> comemora -> ri -> idle...),
+// simulando um GIF animado quadro a quadro.
+// -------------------------------------------------------------------
+let hostFrameIndex = 0;
+function cycleHostFrames() {
+  hostFrameIndex = (hostFrameIndex + 1) % HOST_FRAMES.length;
+  const frame = HOST_FRAMES[hostFrameIndex];
+  if (hostPeek) hostPeek.src = frame;
+  if (resultHost) resultHost.src = frame;
+}
+setInterval(cycleHostFrames, 650);
 
 let answered = false;
 let total = TOTAL_QUESTIONS;
 let progress = 1;
 let score = 0;
+
+// -------------------------------------------------------------------
+// Tela cheia (útil ao apresentar em Smart TV / TV conectada a um PC)
+// -------------------------------------------------------------------
+fullscreenBtn.addEventListener('click', () => {
+  if (!document.fullscreenElement) {
+    appEl.requestFullscreen?.().catch(() => {});
+  } else {
+    document.exitFullscreen?.();
+  }
+});
+
+// -------------------------------------------------------------------
+// Navegação por controle remoto / teclado (setas + Enter/OK)
+// Funciona em Smart TVs e navegadores em TV Box que mapeiam o
+// controle remoto para as teclas de seta e Enter.
+// -------------------------------------------------------------------
+let focusIndex = 0;
+
+function focusableElements() {
+  const activeScreen = document.querySelector('.screen.active');
+  if (!activeScreen) return [];
+  return Array.from(
+    activeScreen.querySelectorAll('.option-bar:not(.disabled), .btn-start')
+  );
+}
+
+function applyFocus() {
+  const els = focusableElements();
+  els.forEach((el, i) => el.classList.toggle('focused', i === focusIndex));
+  if (els[focusIndex]) {
+    els[focusIndex].scrollIntoView({ block: 'nearest' });
+  }
+}
+
+function moveFocus(delta) {
+  const els = focusableElements();
+  if (els.length === 0) return;
+  focusIndex = (focusIndex + delta + els.length) % els.length;
+  applyFocus();
+}
+
+function activateFocused() {
+  const els = focusableElements();
+  if (els[focusIndex]) els[focusIndex].click();
+}
+
+document.addEventListener('keydown', (e) => {
+  switch (e.key) {
+    case 'ArrowDown':
+    case 'ArrowRight':
+      e.preventDefault();
+      moveFocus(1);
+      break;
+    case 'ArrowUp':
+    case 'ArrowLeft':
+      e.preventDefault();
+      moveFocus(-1);
+      break;
+    case 'Enter':
+    case ' ':
+      e.preventDefault();
+      activateFocused();
+      break;
+  }
+});
+
+function resetFocus() {
+  focusIndex = 0;
+  applyFocus();
+}
 
 // Fundo das telas vem das constantes definidas no template (BG_QUESTION / BG_STAGE)
 document.getElementById('screen-quiz').style.backgroundImage = `url('${BG_QUESTION}')`;
@@ -37,6 +126,7 @@ muteBtn.addEventListener('click', () => {
 function showScreen(el) {
   [screenIntro, screenQuiz, screenResult].forEach((s) => s.classList.remove('active'));
   el.classList.add('active');
+  resetFocus();
 }
 
 function buildDots() {
@@ -63,6 +153,7 @@ function renderQuestion(questionObj) {
     btn.addEventListener('click', () => selectOption(idx, btn));
     optionsDiv.appendChild(btn);
   });
+  resetFocus();
 }
 
 function flashBanner(text, cls) {
@@ -141,7 +232,11 @@ function showResult(finalScore, totalQuestions) {
     msg = 'HORA DE ESTUDAR! Volte para a plateia, assista de novo e tente mais uma vez!';
   }
   resultMsg.textContent = msg;
+  resetFocus();
 }
 
 document.getElementById('btn-start').addEventListener('click', startQuiz);
 document.getElementById('btn-retry').addEventListener('click', startQuiz);
+
+// estado inicial: foco no botão "COMEÇAR" da tela de intro
+resetFocus();
