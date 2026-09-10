@@ -21,6 +21,10 @@ from flask import Flask, render_template, jsonify, request, session
 app = Flask(__name__)
 app.secret_key = os.environ.get("SECRET_KEY", "troque-esta-chave-em-producao")
 
+# Sobe este número sempre que CSS/JS/imagens mudarem, para forçar o
+# navegador a baixar a versão nova em vez de usar o cache antigo.
+ASSET_VERSION = "4"
+
 # ---------------------------------------------------------------------------
 # Banco de perguntas — fica só no servidor. O front-end nunca vê "correct".
 # ---------------------------------------------------------------------------
@@ -135,7 +139,7 @@ def _public_question(item: dict) -> dict:
 
 @app.route("/")
 def index():
-    return render_template("index.html", total=len(QUESTIONS))
+    return render_template("index.html", total=len(QUESTIONS), v=ASSET_VERSION)
 
 
 @app.route("/api/start")

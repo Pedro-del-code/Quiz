@@ -74,6 +74,31 @@ Acesse `http://localhost:5000`.
 Em poucos minutos o Render te dá uma URL pública tipo
 `https://quiz-redacao.onrender.com`.
 
+## Apresentação em TV
+
+O layout agora ocupa a tela inteira (16:9), com fontes bem maiores
+pensadas para leitura à distância:
+
+- Botão **⛶ TELA CHEIA** no canto superior — ativa o Fullscreen API
+  do navegador (útil em Smart TV/TV Box/PC ligado na TV via HDMI).
+- **Navegação por controle remoto/teclado**: setas para mover entre
+  as opções e **Enter/OK** para confirmar — não depende de mouse.
+- Margem de segurança (`--safe`) nas bordas para não cortar texto em
+  TVs mais antigas (overscan).
+
+Dica: se for abrir num navegador de Smart TV, deixe a página em modo
+tela cheia antes de começar e teste a navegação pelo controle remoto
+com antecedência (o mapeamento de teclas varia entre fabricantes).
+
+## Sobre a imagem do apresentador
+
+O arquivo enviado (`host.png`, gerado a partir do `.webp` recebido)
+é uma imagem estática de 1 frame — não contém dados de animação de
+GIF. A animação atual (balançar + "piscar") é feita via CSS. Se você
+tiver o **GIF original animado**, envie o arquivo `.gif` direto (sem
+print de tela ou reconversão) para substituirmos por uma animação de
+verdade quadro a quadro.
+
 ## Alternativa em Java
 
 Se preferir back-end em Java (Spring Boot) em vez de Python/Flask —
