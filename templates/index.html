@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>QUIZ TIME! — Redação</title>
-<link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+<link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}?v={{ v }}">
 </head>
 <body>
 
@@ -15,7 +15,7 @@
 
   <!-- INTRO -->
   <div class="screen active" id="screen-intro">
-    <img id="time-logo" src="{{ url_for('static', filename='img/time_logo.jpg') }}" alt="TIME!">
+    <img id="time-logo" src="{{ url_for('static', filename='img/time_logo.jpg') }}?v={{ v }}" alt="TIME!">
     <div id="intro-title">QUIZ DA REDAÇÃO</div>
     <div id="intro-sub">Você tem o que é preciso para tirar nota 1000?</div>
     <button class="btn-start" id="btn-start">▶ COMEÇAR</button>
@@ -36,7 +36,7 @@
         </div>
         <div id="options"></div>
       </div>
-      <img id="host-peek" src="{{ url_for('static', filename='img/host/host_1_idle.png') }}" alt="apresentador">
+      <img id="host-peek" src="{{ url_for('static', filename='img/host/host_1_idle.png') }}?v={{ v }}" alt="apresentador">
     </div>
   </div>
 
@@ -45,7 +45,7 @@
   <!-- RESULT -->
   <div class="screen" id="screen-result">
     <div id="result-card">
-      <img id="result-host" src="{{ url_for('static', filename='img/host/host_3_cheer.png') }}" alt="apresentador">
+      <img id="result-host" src="{{ url_for('static', filename='img/host/host_3_cheer.png') }}?v={{ v }}" alt="apresentador">
       <div id="result-title">FIM DE JOGO!</div>
       <div id="result-score">0/{{ total }}</div>
       <div id="result-msg"></div>
@@ -55,21 +55,21 @@
 
 </div>
 
-<audio id="audio-theme" src="{{ url_for('static', filename='audio/theme.mp3') }}" loop></audio>
-<audio id="audio-tvtime" src="{{ url_for('static', filename='audio/tvtime.mp3') }}"></audio>
+<audio id="audio-theme" src="{{ url_for('static', filename='audio/theme.mp3') }}?v={{ v }}" loop></audio>
+<audio id="audio-tvtime" src="{{ url_for('static', filename='audio/tvtime.mp3') }}?v={{ v }}"></audio>
 
 <script>
-  const BG_QUESTION = "{{ url_for('static', filename='img/bg_question.jpg') }}";
-  const BG_STAGE = "{{ url_for('static', filename='img/bg_stage.jpg') }}";
+  const BG_QUESTION = "{{ url_for('static', filename='img/bg_question.jpg') }}?v={{ v }}";
+  const BG_STAGE = "{{ url_for('static', filename='img/bg_stage.jpg') }}?v={{ v }}";
   const TOTAL_QUESTIONS = {{ total }};
   const HOST_FRAMES = [
-    "{{ url_for('static', filename='img/host/host_1_idle.png') }}",
-    "{{ url_for('static', filename='img/host/host_2_talk.png') }}",
-    "{{ url_for('static', filename='img/host/host_3_cheer.png') }}",
-    "{{ url_for('static', filename='img/host/host_4_laugh.png') }}"
+    "{{ url_for('static', filename='img/host/host_1_idle.png') }}?v={{ v }}",
+    "{{ url_for('static', filename='img/host/host_2_talk.png') }}?v={{ v }}",
+    "{{ url_for('static', filename='img/host/host_3_cheer.png') }}?v={{ v }}",
+    "{{ url_for('static', filename='img/host/host_4_laugh.png') }}?v={{ v }}"
   ];
 </script>
-<script src="{{ url_for('static', filename='js/quiz.js') }}"></script>
+<script src="{{ url_for('static', filename='js/quiz.js') }}?v={{ v }}"></script>
 
 </body>
 </html>
