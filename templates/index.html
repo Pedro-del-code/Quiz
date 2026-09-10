@@ -26,12 +26,12 @@
   <div class="screen" id="screen-quiz">
     <div id="quiz-stage">
       <div id="tv-frame">
-        <div id="quiz-topbar">
-          <span id="quiz-progress-label">PERGUNTA 1/{{ total }}</span>
-          <span id="quiz-score-label">PONTOS: 0</span>
-        </div>
-        <div class="progress-dots" id="progress-dots"></div>
-        <div id="question-box">
+        <div id="quiz-content">
+          <div id="quiz-topbar">
+            <span id="quiz-progress-label">PERGUNTA 1/{{ total }}</span>
+            <span id="quiz-score-label">PONTOS: 0</span>
+          </div>
+          <div class="progress-dots" id="progress-dots"></div>
           <div id="question-text">Carregando...</div>
         </div>
         <div id="options"></div>
@@ -49,8 +49,37 @@
       <div id="result-title">FIM DE JOGO!</div>
       <div id="result-score">0/{{ total }}</div>
       <div id="result-msg"></div>
-      <button class="btn-start" id="btn-retry">↻ JOGAR DE NOVO</button>
+      <div id="result-buttons">
+        <button class="btn-start" id="btn-retry">↻ JOGAR DE NOVO</button>
+        <button class="btn-start btn-secondary" id="btn-credits">CRÉDITOS ▸</button>
+      </div>
     </div>
+  </div>
+
+  <!-- CREDITS -->
+  <div class="screen" id="screen-credits">
+    <div id="credits-viewport">
+      <div id="credits-track">
+        <p class="credits-heading">QUIZ DA REDAÇÃO</p>
+        <p class="credits-sub">um quiz estilo Deltarune</p>
+        <p class="credits-spacer"></p>
+        <p class="credits-label">Criado por</p>
+        <p class="credits-name credits-big">Pedro Henrique</p>
+        <p class="credits-spacer"></p>
+        <p class="credits-label">Grupo</p>
+        <p class="credits-name">Hiasmin</p>
+        <p class="credits-name">Luiz Eduardo</p>
+        <p class="credits-name">Isaac</p>
+        <p class="credits-name">Ramon</p>
+        <p class="credits-name">Lara</p>
+        <p class="credits-name">Lorrany</p>
+        <p class="credits-name">Miguel</p>
+        <p class="credits-name">Maria Eduarda Lopes</p>
+        <p class="credits-spacer"></p>
+        <p class="credits-thanks">Obrigado por jogar! ♥</p>
+      </div>
+    </div>
+    <button class="btn-start" id="btn-credits-back">◂ VOLTAR</button>
   </div>
 
 </div>
