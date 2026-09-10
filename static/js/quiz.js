@@ -113,8 +113,11 @@ function resetFocus() {
 
 // Fundo da tela de perguntas = mesmo cenário de palco da tela de resultado
 // (a "moldura de TV" com a pergunta é desenhada em CSS, ver #tv-frame)
+// Fundo da tela de perguntas = cenário de palco (cortina/holofotes).
+// Fundo da tela de resultado = a outra arte (tela azul), pra ficar
+// visualmente diferente da tela de perguntas.
 document.getElementById('screen-quiz').style.backgroundImage = `url('${BG_STAGE}')`;
-document.getElementById('screen-result').style.backgroundImage = `url('${BG_STAGE}')`;
+document.getElementById('screen-result').style.backgroundImage = `url('${BG_QUESTION}')`;
 
 // -------------------------------------------------------------------
 // Tamanho do apresentador = proporcional à altura real da moldura de
