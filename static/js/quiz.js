@@ -111,9 +111,23 @@ function resetFocus() {
   applyFocus();
 }
 
-// Fundo das telas vem das constantes definidas no template (BG_QUESTION / BG_STAGE)
-document.getElementById('screen-quiz').style.backgroundImage = `url('${BG_QUESTION}')`;
+// Fundo da tela de perguntas = mesmo cenário de palco da tela de resultado
+// (a "moldura de TV" com a pergunta é desenhada em CSS, ver #tv-frame)
+document.getElementById('screen-quiz').style.backgroundImage = `url('${BG_STAGE}')`;
 document.getElementById('screen-result').style.backgroundImage = `url('${BG_STAGE}')`;
+
+// -------------------------------------------------------------------
+// Tamanho do apresentador = proporcional à altura real da moldura de
+// TV renderizada (não só vh), para não ficar gigante em telas em pé.
+// -------------------------------------------------------------------
+const tvFrame = document.getElementById('tv-frame');
+function syncHostSize() {
+  if (!tvFrame || !hostPeek) return;
+  const h = tvFrame.getBoundingClientRect().height;
+  if (h > 0) hostPeek.style.height = `${h * 0.92}px`;
+}
+window.addEventListener('resize', syncHostSize);
+window.addEventListener('load', syncHostSize);
 
 let muted = false;
 muteBtn.addEventListener('click', () => {
@@ -127,6 +141,7 @@ function showScreen(el) {
   [screenIntro, screenQuiz, screenResult].forEach((s) => s.classList.remove('active'));
   el.classList.add('active');
   resetFocus();
+  syncHostSize();
 }
 
 function buildDots() {
