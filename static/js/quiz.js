@@ -5,6 +5,7 @@
 const screenIntro = document.getElementById('screen-intro');
 const screenQuiz = document.getElementById('screen-quiz');
 const screenResult = document.getElementById('screen-result');
+const screenCredits = document.getElementById('screen-credits');
 const questionText = document.getElementById('question-text');
 const optionsDiv = document.getElementById('options');
 const progressLabel = document.getElementById('quiz-progress-label');
@@ -113,11 +114,13 @@ function resetFocus() {
 
 // Fundo da tela de perguntas = mesmo cenário de palco da tela de resultado
 // (a "moldura de TV" com a pergunta é desenhada em CSS, ver #tv-frame)
-// Fundo da tela de perguntas = cenário de palco (cortina/holofotes).
-// Fundo da tela de resultado = a outra arte (tela azul), pra ficar
-// visualmente diferente da tela de perguntas.
-document.getElementById('screen-quiz').style.backgroundImage = `url('${BG_STAGE}')`;
-document.getElementById('screen-result').style.backgroundImage = `url('${BG_QUESTION}')`;
+// Fundo da tela de perguntas = a arte da "tela azul": o quiz-frame usa
+// essa imagem como fundo, nas proporções exatas em que a caixa branca
+// e a área azul foram desenhadas, e o conteúdo HTML é encaixado por
+// cima alinhado a essas mesmas proporções (ver #quiz-content/#options
+// no CSS, medidos em % a partir da arte original).
+document.getElementById('tv-frame').style.backgroundImage = `url('${BG_QUESTION}')`;
+document.getElementById('screen-result').style.backgroundImage = `url('${BG_STAGE}')`;
 
 // -------------------------------------------------------------------
 // Tamanho do apresentador = proporcional à altura real da moldura de
@@ -141,7 +144,7 @@ muteBtn.addEventListener('click', () => {
 });
 
 function showScreen(el) {
-  [screenIntro, screenQuiz, screenResult].forEach((s) => s.classList.remove('active'));
+  [screenIntro, screenQuiz, screenResult, screenCredits].forEach((s) => s.classList.remove('active'));
   el.classList.add('active');
   resetFocus();
   syncHostSize();
@@ -255,6 +258,23 @@ function showResult(finalScore, totalQuestions) {
 
 document.getElementById('btn-start').addEventListener('click', startQuiz);
 document.getElementById('btn-retry').addEventListener('click', startQuiz);
+
+// -------------------------------------------------------------------
+// Tela de créditos: rolagem estilo "fim de filme" com o nome do autor
+// e do grupo. Reinicia a animação toda vez que a tela é aberta.
+// -------------------------------------------------------------------
+const creditsTrack = document.getElementById('credits-track');
+
+function showCredits() {
+  showScreen(screenCredits);
+  // força reinício da animação CSS (senão ela só roda uma vez e para)
+  creditsTrack.style.animation = 'none';
+  void creditsTrack.offsetWidth; // reflow
+  creditsTrack.style.animation = '';
+}
+
+document.getElementById('btn-credits').addEventListener('click', showCredits);
+document.getElementById('btn-credits-back').addEventListener('click', () => showScreen(screenIntro));
 
 // estado inicial: foco no botão "COMEÇAR" da tela de intro
 resetFocus();
