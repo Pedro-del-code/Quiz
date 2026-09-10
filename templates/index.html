@@ -24,16 +24,20 @@
 
   <!-- QUIZ -->
   <div class="screen" id="screen-quiz">
-    <div id="quiz-topbar">
-      <span id="quiz-progress-label">PERGUNTA 1/{{ total }}</span>
-      <span id="quiz-score-label">PONTOS: 0</span>
+    <div id="quiz-stage">
+      <div id="tv-frame">
+        <div id="quiz-topbar">
+          <span id="quiz-progress-label">PERGUNTA 1/{{ total }}</span>
+          <span id="quiz-score-label">PONTOS: 0</span>
+        </div>
+        <div class="progress-dots" id="progress-dots"></div>
+        <div id="question-box">
+          <div id="question-text">Carregando...</div>
+        </div>
+        <div id="options"></div>
+      </div>
+      <img id="host-peek" src="{{ url_for('static', filename='img/host/host_1_idle.png') }}" alt="apresentador">
     </div>
-    <div class="progress-dots" id="progress-dots"></div>
-    <div id="question-box">
-      <div id="question-text">Carregando...</div>
-    </div>
-    <div id="options"></div>
-    <img id="host-peek" src="{{ url_for('static', filename='img/host/host_1_idle.png') }}" alt="apresentador">
   </div>
 
   <div id="feedback-banner"></div>
