@@ -101,8 +101,7 @@ img{ image-rendering: pixelated; }
 
 /* ---------- QUIZ SCREEN ---------- */
 #screen-quiz{
-  background-size: cover;
-  background-position: center;
+  background: radial-gradient(ellipse at 50% 30%, #163a63 0%, #04070f 100%);
   justify-content: center;
   align-items: center;
   padding: 2.5vh 2vw;
@@ -111,25 +110,32 @@ img{ image-rendering: pixelated; }
 
 #quiz-stage{
   position: relative;
-  display: inline-flex;
+  display: block;
 }
 
-/* "TV" com moldura de madeira + tela azul, tamanho fixo (não tela cheia) */
+/* A própria arte de fundo (moldura de madeira + tela azul) definida
+   como imagem deste bloco; o conteúdo HTML é encaixado por cima nas
+   mesmas proporções em que a caixa branca/área azul foram desenhadas. */
 #tv-frame{
   position:relative;
-  width: min(90vw, calc(78vh * 1.62), 1180px);
-  aspect-ratio: 16 / 9.6;
-  background: radial-gradient(ellipse at 50% 0%, #2fa2e6 0%, #1e7dc2 55%, #145f97 100%);
-  border: 0.9vh solid var(--wood);
-  outline: 0.35vh solid #6e3610;
-  outline-offset: -0.9vh;
-  border-radius: 10px;
-  box-shadow: 0 1.5vh 3vh rgba(0,0,0,0.55), inset 0 0 30px rgba(0,0,0,0.25);
+  width: min(92vw, calc(88vh * 1.7757), 1500px);
+  aspect-ratio: 1671 / 941;
+  background-image: none; /* definida via JS (ver quiz.js) */
+  background-size: 100% 100%;
+  background-repeat: no-repeat;
+  box-shadow: 0 1.5vh 3vh rgba(0,0,0,0.55);
+  z-index:2;
+}
+
+#quiz-content{
+  position:absolute;
+  top: 1.5%;
+  left: 18%;
+  width: 61%;
+  height: 21%;
   display:flex;
   flex-direction:column;
-  align-items:center;
-  padding: 2.2% 15% 2.6% 3.2%;
-  z-index:2;
+  justify-content:center;
 }
 
 #quiz-topbar{
@@ -138,62 +144,49 @@ img{ image-rendering: pixelated; }
   justify-content:space-between;
   align-items:center;
   font-family:'Press Start 2P', monospace;
-  font-size: clamp(10px, 1.5vw, 18px);
+  font-size: clamp(8px, 1.35vw, 16px);
   color:#e8f6ff;
-  margin-bottom: 1.2%;
+  margin-bottom: 0.6vh;
   text-shadow: 2px 2px 0 #0a4c7a;
 }
 .progress-dots{
-  display:flex; gap: 0.6%; margin-bottom: 1.6%;
+  display:flex; gap: 0.5%; margin-bottom: 0.8vh;
   flex-wrap: wrap;
-  justify-content:center;
 }
 .dot{
-  width: 1.6%; height: 0; padding-bottom: 1.6%;
-  min-width:8px; min-height:8px;
+  width: 1.5%; height: 0; padding-bottom: 1.5%;
+  min-width:6px; min-height:6px;
   border-radius:50%;
   background: rgba(255,255,255,0.25);
   border:1.5px solid rgba(255,255,255,0.45);
 }
 .dot.filled{ background: var(--gold); }
 
-#question-box{
-  width:100%;
-  flex: 0 0 auto;
-  min-height: 22%;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  background: rgba(255,255,255,0.06);
-  border: 2px solid rgba(255,255,255,0.85);
-  border-radius: 8px;
-  box-shadow: inset 0 0 0 2px rgba(30,120,190,0.4);
-  padding: 1.4% 3%;
-  margin-bottom: 1.6%;
-}
 #question-text{
-  font-size: clamp(11px, 1.9vw, 24px);
+  font-size: clamp(9px, 1.5vw, 19px);
   font-weight:800;
   color:#eaf7ff;
-  line-height:1.35;
+  line-height:1.3;
   text-shadow: 1px 1px 0 #0a4c7a;
 }
 
 #options{
-  width:100%;
-  flex: 1 1 auto;
+  position:absolute;
+  top: 26.5%;
+  left: 17.5%;
+  width: 62.5%;
+  height: 40.5%;
   display:flex;
   flex-direction:column;
   justify-content: space-between;
-  gap: 1.2%;
 }
 .option-bar{
   width:100%;
   background: linear-gradient(180deg, #dff0ff, #a9cdea);
   border: 2px solid #eaf7ff;
   border-radius: 6px;
-  padding: 1.6% 2.6%;
-  font-size: clamp(10px, 1.35vw, 18px);
+  padding: 1.2% 2.4%;
+  font-size: clamp(8px, 1.25vw, 17px);
   font-weight:700;
   color: #0d3a5c;
   text-align:left;
@@ -210,12 +203,11 @@ img{ image-rendering: pixelated; }
 
 #host-peek{
   position:absolute;
-  bottom: 0;
-  right: -1.5vw;
-  height: 46vh;
+  bottom: 1%;
+  right: 3.5%;
+  height: 56%;
   width: auto;
-  max-width: 380px;
-  max-height: 420px;
+  max-width: 360px;
   filter: drop-shadow(4px 8px 6px rgba(0,0,0,0.5));
   animation: bob 1.8s ease-in-out infinite;
   transform-origin: bottom center;
@@ -297,6 +289,85 @@ img{ image-rendering: pixelated; }
   margin-bottom: 2vh;
   filter: drop-shadow(3px 8px 6px rgba(0,0,0,0.5));
   animation: bob 1.8s ease-in-out infinite;
+}
+
+.btn-start.btn-secondary{
+  background: linear-gradient(180deg, #cfe6ff, #9fc4e8 60%, #5f8fb8);
+  color: #0d2a44;
+  box-shadow: 0 7px 0 #2c536f;
+  border-color: #2c536f;
+}
+.btn-start.btn-secondary:active{ box-shadow: 0 1px 0 #2c536f; }
+
+#result-buttons{
+  display:flex;
+  gap: 1.4vw;
+  flex-wrap: wrap;
+  justify-content:center;
+}
+
+/* ---------- CREDITS SCREEN ---------- */
+#screen-credits{
+  background: radial-gradient(ellipse at center, #101033 0%, #04040f 100%);
+  overflow: hidden;
+}
+#credits-viewport{
+  position: relative;
+  width: min(90vw, 700px);
+  height: 78vh;
+  overflow: hidden;
+  mask-image: linear-gradient(to bottom, transparent 0%, black 10%, black 88%, transparent 100%);
+  -webkit-mask-image: linear-gradient(to bottom, transparent 0%, black 10%, black 88%, transparent 100%);
+}
+#credits-track{
+  position:absolute;
+  top: 100%;
+  left:0; right:0;
+  text-align:center;
+  animation: creditsScroll 22s linear forwards;
+}
+@keyframes creditsScroll{
+  0%   { transform: translateY(0); }
+  100% { transform: translateY(-135%); }
+}
+.credits-heading{
+  font-family:'Press Start 2P', monospace;
+  font-size: clamp(18px, 3vw, 32px);
+  color: var(--gold);
+  text-shadow: 2px 2px 0 #7a3b00;
+  margin-bottom: 0.6em;
+}
+.credits-sub{
+  font-size: clamp(13px, 1.6vw, 18px);
+  opacity:0.8;
+  margin-bottom: 1.2em;
+}
+.credits-spacer{ height: 2.4em; margin:0; }
+.credits-label{
+  font-family:'Press Start 2P', monospace;
+  font-size: clamp(11px, 1.4vw, 15px);
+  color: #9fd6ff;
+  margin-bottom: 0.8em;
+  letter-spacing: 1px;
+}
+.credits-name{
+  font-size: clamp(15px, 2vw, 22px);
+  font-weight: 700;
+  color: var(--cream);
+  margin: 0.35em 0;
+}
+.credits-name.credits-big{
+  font-size: clamp(20px, 2.8vw, 30px);
+  color: var(--gold);
+  margin-bottom: 1em;
+}
+.credits-thanks{
+  font-size: clamp(14px, 1.8vw, 20px);
+  color: var(--pink);
+  margin-top: 1em;
+}
+#btn-credits-back{
+  margin-top: 3vh;
 }
 
 .small-note{
