@@ -21,37 +21,8 @@ const audioWrong = document.getElementById('audio-wrong');
 const muteBtn = document.getElementById('mute-btn');
 const fullscreenBtn = document.getElementById('fullscreen-btn');
 const appEl = document.getElementById('app');
-const hostPeek = document.getElementById('host-peek');
-const hostIntro = document.getElementById('host-intro');
 const resultHost = document.getElementById('result-host');
 const ALL_AUDIO = [audioTheme, audioTvtime, audioCorrect, audioWrong];
-
-// -------------------------------------------------------------------
-// Animação do apresentador: alterna entre os sprites recortados da
-// folha de referência (idle -> fala -> comemora -> ri -> idle...),
-// simulando um GIF animado quadro a quadro. Fica em pausa sempre que
-// uma reação (acerto/erro) está sendo exibida (ver reactHost()).
-// -------------------------------------------------------------------
-let hostFrameIndex = 0;
-let hostReacting = false;
-function cycleHostFrames() {
-  if (hostReacting) return;
-  hostFrameIndex = (hostFrameIndex + 1) % HOST_FRAMES.length;
-  const frame = HOST_FRAMES[hostFrameIndex];
-  if (hostPeek) hostPeek.src = frame;
-  if (hostIntro) hostIntro.src = frame;
-}
-setInterval(cycleHostFrames, 650);
-
-// Mostra uma reação pontual (comemorar / sem-graça) no apresentador da
-// tela de perguntas, segurando o quadro por um tempo antes de voltar
-// à animação normal de idle.
-function reactHost(frameSrc, holdMs) {
-  if (!hostPeek) return;
-  hostReacting = true;
-  hostPeek.src = frameSrc;
-  setTimeout(() => { hostReacting = false; }, holdMs);
-}
 
 function playSfx(audioEl) {
   if (!audioEl) return;
@@ -145,19 +116,6 @@ function resetFocus() {
 document.getElementById('tv-frame').style.backgroundImage = `url('${BG_QUESTION}')`;
 document.getElementById('screen-result').style.backgroundImage = `url('${BG_STAGE}')`;
 
-// -------------------------------------------------------------------
-// Tamanho do apresentador = proporcional à altura real da moldura de
-// TV renderizada (não só vh), para não ficar gigante em telas em pé.
-// -------------------------------------------------------------------
-const tvFrame = document.getElementById('tv-frame');
-function syncHostSize() {
-  if (!tvFrame || !hostPeek) return;
-  const h = tvFrame.getBoundingClientRect().height;
-  if (h > 0) hostPeek.style.height = `${h * 0.92}px`;
-}
-window.addEventListener('resize', syncHostSize);
-window.addEventListener('load', syncHostSize);
-
 let muted = false;
 muteBtn.addEventListener('click', () => {
   muted = !muted;
@@ -169,7 +127,6 @@ function showScreen(el) {
   [screenIntro, screenQuiz, screenResult, screenCredits].forEach((s) => s.classList.remove('active'));
   el.classList.add('active');
   resetFocus();
-  syncHostSize();
 }
 
 function buildDots() {
@@ -242,13 +199,11 @@ async function selectOption(idx, btnEl) {
   if (data.correct) {
     btnEl.classList.add('correct');
     flashBanner('CORRETO! ✔', 'fb-correct');
-    reactHost(HOST_CHEER, 1650);
     playSfx(audioCorrect);
   } else {
     btnEl.classList.add('wrong');
     allBtns[data.correct_index].classList.add('correct');
     flashBanner('ERROU!', 'fb-wrong');
-    reactHost(HOST_OOPS, 1650);
     playSfx(audioWrong);
   }
 
@@ -260,7 +215,7 @@ async function selectOption(idx, btnEl) {
       total = data.total;
       renderQuestion(data.next_question);
     }
-  }, 1700);
+  }, 1600);
 }
 
 function showResult(finalScore, totalQuestions) {
