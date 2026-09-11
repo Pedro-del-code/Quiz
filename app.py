@@ -23,7 +23,7 @@ app.secret_key = os.environ.get("SECRET_KEY", "troque-esta-chave-em-producao")
 
 # Sobe este número sempre que CSS/JS/imagens mudarem, para forçar o
 # navegador a baixar a versão nova em vez de usar o cache antigo.
-ASSET_VERSION = "6"
+ASSET_VERSION = "7"
 
 # ---------------------------------------------------------------------------
 # Banco de perguntas — fica só no servidor. O front-end nunca vê "correct".
