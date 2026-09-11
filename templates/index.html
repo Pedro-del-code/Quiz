@@ -15,12 +15,15 @@
 
   <!-- INTRO -->
   <div class="screen active" id="screen-intro">
-    <img id="time-logo" src="{{ url_for('static', filename='img/time_logo.jpg') }}?v={{ v }}" alt="TIME!">
-    <div id="intro-title">QUIZ DA REDAÇÃO</div>
-    <div id="intro-sub">Você tem o que é preciso para tirar nota 1000?</div>
-    <button class="btn-start" id="btn-start">▶ COMEÇAR</button>
-    <div class="small-note">toque para ativar o som</div>
-    <img id="host-intro" src="{{ url_for('static', filename='img/host/host_2_talk.png') }}?v={{ v }}" alt="apresentador">
+    <div class="intro-scanline"></div>
+    <div id="intro-card">
+      <img id="time-logo" src="{{ url_for('static', filename='img/time_logo.jpg') }}?v={{ v }}" alt="TIME!">
+      <div id="intro-title">QUIZ DA REDAÇÃO</div>
+      <div id="intro-sub">Você tem o que é preciso para tirar nota 1000?</div>
+      <div id="intro-badge">📝 10 perguntas · estilo Deltarune</div>
+      <button class="btn-start" id="btn-start">▶ COMEÇAR</button>
+      <div class="small-note">toque para ativar o som · setas + Enter também funcionam</div>
+    </div>
   </div>
 
   <!-- QUIZ -->
@@ -37,7 +40,6 @@
         </div>
         <div id="options"></div>
       </div>
-      <img id="host-peek" src="{{ url_for('static', filename='img/host/host_1_idle.png') }}?v={{ v }}" alt="apresentador">
     </div>
   </div>
 
@@ -94,12 +96,6 @@
   const BG_QUESTION = "{{ url_for('static', filename='img/bg_question.jpg') }}?v={{ v }}";
   const BG_STAGE = "{{ url_for('static', filename='img/bg_stage.jpg') }}?v={{ v }}";
   const TOTAL_QUESTIONS = {{ total }};
-  const HOST_FRAMES = [
-    "{{ url_for('static', filename='img/host/host_1_idle.png') }}?v={{ v }}",
-    "{{ url_for('static', filename='img/host/host_2_talk.png') }}?v={{ v }}",
-    "{{ url_for('static', filename='img/host/host_3_cheer.png') }}?v={{ v }}",
-    "{{ url_for('static', filename='img/host/host_4_laugh.png') }}?v={{ v }}"
-  ];
   const HOST_CHEER = "{{ url_for('static', filename='img/host/host_3_cheer.png') }}?v={{ v }}";
   const HOST_OOPS  = "{{ url_for('static', filename='img/host/host_5_oops.png') }}?v={{ v }}";
   const HOST_IDLE  = "{{ url_for('static', filename='img/host/host_1_idle.png') }}?v={{ v }}";
