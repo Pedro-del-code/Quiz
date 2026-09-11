@@ -20,6 +20,7 @@
     <div id="intro-sub">Você tem o que é preciso para tirar nota 1000?</div>
     <button class="btn-start" id="btn-start">▶ COMEÇAR</button>
     <div class="small-note">toque para ativar o som</div>
+    <img id="host-intro" src="{{ url_for('static', filename='img/host/host_2_talk.png') }}?v={{ v }}" alt="apresentador">
   </div>
 
   <!-- QUIZ -->
@@ -86,6 +87,8 @@
 
 <audio id="audio-theme" src="{{ url_for('static', filename='audio/theme.mp3') }}?v={{ v }}" loop></audio>
 <audio id="audio-tvtime" src="{{ url_for('static', filename='audio/tvtime.mp3') }}?v={{ v }}"></audio>
+<audio id="audio-correct" src="{{ url_for('static', filename='audio/correct.mp3') }}?v={{ v }}"></audio>
+<audio id="audio-wrong" src="{{ url_for('static', filename='audio/wrong.mp3') }}?v={{ v }}"></audio>
 
 <script>
   const BG_QUESTION = "{{ url_for('static', filename='img/bg_question.jpg') }}?v={{ v }}";
@@ -97,6 +100,10 @@
     "{{ url_for('static', filename='img/host/host_3_cheer.png') }}?v={{ v }}",
     "{{ url_for('static', filename='img/host/host_4_laugh.png') }}?v={{ v }}"
   ];
+  const HOST_CHEER = "{{ url_for('static', filename='img/host/host_3_cheer.png') }}?v={{ v }}";
+  const HOST_OOPS  = "{{ url_for('static', filename='img/host/host_5_oops.png') }}?v={{ v }}";
+  const HOST_IDLE  = "{{ url_for('static', filename='img/host/host_1_idle.png') }}?v={{ v }}";
+  const HOST_TALK  = "{{ url_for('static', filename='img/host/host_2_talk.png') }}?v={{ v }}";
 </script>
 <script src="{{ url_for('static', filename='js/quiz.js') }}?v={{ v }}"></script>
 
