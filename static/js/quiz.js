@@ -16,25 +16,48 @@ const resultScore = document.getElementById('result-score');
 const resultMsg = document.getElementById('result-msg');
 const audioTheme = document.getElementById('audio-theme');
 const audioTvtime = document.getElementById('audio-tvtime');
+const audioCorrect = document.getElementById('audio-correct');
+const audioWrong = document.getElementById('audio-wrong');
 const muteBtn = document.getElementById('mute-btn');
 const fullscreenBtn = document.getElementById('fullscreen-btn');
 const appEl = document.getElementById('app');
 const hostPeek = document.getElementById('host-peek');
+const hostIntro = document.getElementById('host-intro');
 const resultHost = document.getElementById('result-host');
+const ALL_AUDIO = [audioTheme, audioTvtime, audioCorrect, audioWrong];
 
 // -------------------------------------------------------------------
-// Animação do apresentador: alterna entre os 4 sprites recortados da
+// Animação do apresentador: alterna entre os sprites recortados da
 // folha de referência (idle -> fala -> comemora -> ri -> idle...),
-// simulando um GIF animado quadro a quadro.
+// simulando um GIF animado quadro a quadro. Fica em pausa sempre que
+// uma reação (acerto/erro) está sendo exibida (ver reactHost()).
 // -------------------------------------------------------------------
 let hostFrameIndex = 0;
+let hostReacting = false;
 function cycleHostFrames() {
+  if (hostReacting) return;
   hostFrameIndex = (hostFrameIndex + 1) % HOST_FRAMES.length;
   const frame = HOST_FRAMES[hostFrameIndex];
   if (hostPeek) hostPeek.src = frame;
-  if (resultHost) resultHost.src = frame;
+  if (hostIntro) hostIntro.src = frame;
 }
 setInterval(cycleHostFrames, 650);
+
+// Mostra uma reação pontual (comemorar / sem-graça) no apresentador da
+// tela de perguntas, segurando o quadro por um tempo antes de voltar
+// à animação normal de idle.
+function reactHost(frameSrc, holdMs) {
+  if (!hostPeek) return;
+  hostReacting = true;
+  hostPeek.src = frameSrc;
+  setTimeout(() => { hostReacting = false; }, holdMs);
+}
+
+function playSfx(audioEl) {
+  if (!audioEl) return;
+  audioEl.currentTime = 0;
+  audioEl.play().catch(() => {});
+}
 
 let answered = false;
 let total = TOTAL_QUESTIONS;
@@ -138,8 +161,7 @@ window.addEventListener('load', syncHostSize);
 let muted = false;
 muteBtn.addEventListener('click', () => {
   muted = !muted;
-  audioTheme.muted = muted;
-  audioTvtime.muted = muted;
+  ALL_AUDIO.forEach((a) => { a.muted = muted; });
   muteBtn.textContent = muted ? '🔇' : '🔊';
 });
 
@@ -220,10 +242,14 @@ async function selectOption(idx, btnEl) {
   if (data.correct) {
     btnEl.classList.add('correct');
     flashBanner('CORRETO! ✔', 'fb-correct');
+    reactHost(HOST_CHEER, 1650);
+    playSfx(audioCorrect);
   } else {
     btnEl.classList.add('wrong');
     allBtns[data.correct_index].classList.add('correct');
     flashBanner('ERROU!', 'fb-wrong');
+    reactHost(HOST_OOPS, 1650);
+    playSfx(audioWrong);
   }
 
   setTimeout(() => {
@@ -234,7 +260,7 @@ async function selectOption(idx, btnEl) {
       total = data.total;
       renderQuestion(data.next_question);
     }
-  }, 1500);
+  }, 1700);
 }
 
 function showResult(finalScore, totalQuestions) {
@@ -245,12 +271,16 @@ function showResult(finalScore, totalQuestions) {
   const ratio = finalScore / totalQuestions;
   if (ratio >= 0.9) {
     msg = 'IMPECÁVEL! Redator(a) nota mil, digno(a) do próprio quadro de honra da TV!';
+    resultHost.src = HOST_CHEER;
   } else if (ratio >= 0.7) {
     msg = 'MUITO BOM! Você manja bem das regras da redação. Só faltam alguns detalhes!';
+    resultHost.src = HOST_TALK;
   } else if (ratio >= 0.4) {
     msg = 'RAZOÁVEL! Dá pra melhorar — revise coesão, coerência e repertório!';
+    resultHost.src = HOST_IDLE;
   } else {
     msg = 'HORA DE ESTUDAR! Volte para a plateia, assista de novo e tente mais uma vez!';
+    resultHost.src = HOST_OOPS;
   }
   resultMsg.textContent = msg;
   resetFocus();
